@@ -5,7 +5,9 @@ import numpy as np
 import cv2
 from shapely.geometry import Point
 from tracker import Tracker
-from my_utils import geometry
+from my_utils import geometry, cvdraw
+from modules.dbutil import MySQLPlugin
+
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 try:
@@ -20,8 +22,12 @@ except ImportError as e:
 # frame_url = 'rtsp://admin:helab401@192.168.31.124/Streaming/Channels/101'
 frame_url = '/home/feng/Videos/124_3.mp4'
 
-canteen_human_num = 7
+canteen_human_num = 4
 
+area_id = 0
+db = MySQLPlugin()
+
+db.update_headcount(area_id, canteen_human_num, int(time.time()*1000))
 
 def tracking_human(tracked_positions, frame, canteen_human_num):
     tracker = Tracker(100, 50, 5)
@@ -51,11 +57,13 @@ def tracking_human(tracked_positions, frame, canteen_human_num):
     for tacker_i in tracker.tracks:
         distance = tacker_i.trace[-1][0, 0] - tacker_i.trace[0][0, 0]
         if distance > 100:
+            db.update_headcount(area_id, canteen_human_num, int(time.time()*1000))
             canteen_human_num -= 1
-            print("human out")
+            print("human out, total number is: " + str(canteen_human_num))
         elif distance < -100:
+            db.update_headcount(area_id, canteen_human_num, int(time.time()*1000))
             canteen_human_num += 1
-            print("human in")
+            print("human in, total number is: " + str(canteen_human_num))
 
             # print(tracker.tracks[j].trace[-1][0,0])
             # print(tracker.tracks[j].trace[-1][0,1])
@@ -110,8 +118,8 @@ def canteen_human_count():
             opWrapper.emplaceAndPop([datum])
             frame_keypoints = datum.poseKeypoints
             # image_out = datum.cvOutputData
-            # cvdraw.draw_rect(img_test2, (241, 1), (437, 1), (236, 600),
-            #                  (40, 600))
+            cvdraw.draw_rect(img_test2, (241, 1), (437, 1), (236, 600),
+                             (40, 600))
             curr_frame_tracking = []
 
             if len(frame_keypoints.shape) == 0:
