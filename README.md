@@ -10,4 +10,5 @@ Customer counting and Customer flow statistics
 ## Demo
 download demo video ```https://drive.google.com/open?id=1Kp7Mx0uleCC-C4H8OUxARGLK89monrPD```
 ```
-python CustomerCounting.py```
+python CustomerCounting.py
+```
