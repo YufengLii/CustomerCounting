@@ -1,5 +1,5 @@
 # CustomerCounting
-
+Customer counting and Customer flow statistics
 ## Setup:
 1. Create virtual python env use (do not use anaconda)
 ```virtualenv -p /usr/bin/python3.x CustomerCounting```
