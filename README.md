@@ -1,8 +1,9 @@
 # CustomerCounting
 
-### Setup:
+## Setup:
+```mkvirtualenv CustomerCounting ```
 
 
-### Demo
+## Demo
 
 
