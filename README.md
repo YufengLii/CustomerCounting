@@ -8,4 +8,5 @@ Customer counting and Customer flow statistics
 ```pip install -r requirements.txt```
 
 ## Demo
+download demo video ```https://drive.google.com/open?id=1Kp7Mx0uleCC-C4H8OUxARGLK89monrPD```
 ```python CustomerCounting.py```
