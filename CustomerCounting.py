@@ -66,8 +66,8 @@ def canteen_human_count():
                                                    43200).strftime('%H:%M')
         CurrHour = int(currTimeHourMinus[0:2])
         CurrMinus = int(currTimeHourMinus[3:5])
-        print(CurrHour)
-        print(CurrMinus)
+        # print(CurrHour)
+        # print(CurrMinus)
 
         if CurrHour == 12 and CurrMinus < 5:
             canteen_human_num = 0
@@ -80,13 +80,13 @@ def canteen_human_count():
             fps = 1 / ((time.time() - t0) / 100)
             t0 = time.time()
             run_num = 1
-        success, image = vidcap.read()
+        success, img_test2 = vidcap.read()
         if success:
 
-            img_test2 = cv2.resize(image, (0, 0),
-                                   fx=0.5,
-                                   fy=0.5,
-                                   interpolation=cv2.INTER_NEAREST)
+            # img_test2 = cv2.resize(image, (0, 0),
+            #                        fx=0.5,
+            #                        fy=0.5,
+            #                        interpolation=cv2.INTER_NEAREST)
             datum.cvInputData = img_test2
             opWrapper.emplaceAndPop([datum])
             frame_keypoints = datum.poseKeypoints
@@ -113,8 +113,8 @@ def canteen_human_count():
                 cv2.putText(img_test2, "Depart number:  " + (str)(depart_num),
                             (800, 200), cv2.FONT_HERSHEY_SIMPLEX, 1,
                             (0, 255, 0), 2)
-                cv2.imshow("image", img_test2)
-                cv2.waitKey(1)
+                # cv2.imshow("image", img_test2)
+                # cv2.waitKey(1)
                 continue
 
             for human_keypoints in frame_keypoints:
@@ -160,8 +160,8 @@ def canteen_human_count():
                     print('tracking stoped')
                     num_changed, enter_num_, depart_num_, img_test2 = algorithm.tracking_human(
                         tracked_positions, img_test2)
-                    cv2.imshow("image", img_test2)
-                    cv2.waitKey(1000)
+                    # cv2.imshow("image", img_test2)
+                    # cv2.waitKey(1000)
                     canteen_human_num = canteen_human_num + num_changed
                     if canteen_human_num < 0:
                         canteen_human_num = 0
@@ -210,8 +210,8 @@ def canteen_human_count():
             vidcap.release()
             time.sleep(5)
             vidcap = cv2.VideoCapture(frame_url)
-        cv2.imshow("image", img_test2)
-        cv2.waitKey(1)
+        # cv2.imshow("image", img_test2)
+        # cv2.waitKey(1)
 
 
 canteen_human_count()
