@@ -5,6 +5,9 @@ import cv2
 from my_utils import algorithm, config
 from shapely.geometry import Point
 from datetime import datetime
+from modules import mqutil
+import requests
+import json
 
 try:
     sys.path.append(config.oPPython)
@@ -12,7 +15,6 @@ try:
 except ImportError as e:
     print('Error: OpenPose library could not be found.')
     raise e
-
 
 def canteen_human_count():
     canteen_human_num = config.canteen_human_num_init
@@ -25,6 +27,18 @@ def canteen_human_count():
     line_y_max = config.line_y_max
     line_y_min = config.line_y_min
     area_id = config.area_id
+    try:
+        data = requests.get(config.requesturl).json()
+        print(data)
+        canteen_human_num = data['count']
+        enter_num = data['enter']
+        depart_num = data['depart']
+        print('init success')
+    except:
+        canteen_human_num = 0
+        enter_num = 0
+        depart_num = 0
+        pass
 
     try:
         opWrapper = op.WrapperPython()
@@ -43,6 +57,7 @@ def canteen_human_count():
     fps = 0
 
     vidcap = cv2.VideoCapture(frame_url)
+    q_canteen_count = mqutil.RSMQueue('cvstats')
 
     while True:
 
@@ -160,6 +175,7 @@ def canteen_human_count():
                             'num': canteen_human_num,
                         }
                         print(msg_str)
+                        q_canteen_count.publish(json.dumps(msg_str))
 
                     elif num_changed < 0:
                         depart_num = depart_num_ + depart_num
@@ -171,7 +187,7 @@ def canteen_human_count():
                             'num': canteen_human_num,
                         }
                         print(msg_str)
-
+                        q_canteen_count.publish(json.dumps(msg_str))
                     print("human number is: " + str(canteen_human_num))
                     tracked_positions = []
                     tracking_state = False

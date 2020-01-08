@@ -11,6 +11,8 @@ op_params = params
 oPPython = '/home/feng/Documents/openpose/build/python' 
 # Video source
 frame_url = './demo_videos/124_3.mp4'
+# frame_url = 'rtsp://admin:helab401@192.168.31.124/Streaming/Channels/101'
+requesturl = "http://192.168.31.33:3001/api/v1/sense/cv/customers/count"
 
 # canteen human num init
 canteen_human_num_init = 0
