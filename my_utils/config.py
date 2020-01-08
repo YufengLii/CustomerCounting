@@ -8,6 +8,7 @@ params["num_gpu"] = 1
 params["num_gpu_start"] = 0
 op_params = params
 
+oPPython = '/home/feng/Documents/openpose/build/python' 
 # Video source
 frame_url = './demo_videos/124_3.mp4'
 

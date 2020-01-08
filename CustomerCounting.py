@@ -2,12 +2,12 @@
 import sys
 import time
 import cv2
-from multiprocessing import Process, Queue
 from my_utils import algorithm, config
 from shapely.geometry import Point
+from datetime import datetime
 
 try:
-    sys.path.append('/home/feng/Documents/openpose/build/python')
+    sys.path.append(config.oPPython)
     from openpose import pyopenpose as op
 except ImportError as e:
     print('Error: OpenPose library could not be found.')
@@ -45,6 +45,21 @@ def canteen_human_count():
     vidcap = cv2.VideoCapture(frame_url)
 
     while True:
+
+        currTime = int(time.time())
+        currTimeHourMinus = datetime.fromtimestamp(currTime +
+                                                   43200).strftime('%H:%M')
+        CurrHour = int(currTimeHourMinus[0:2])
+        CurrMinus = int(currTimeHourMinus[3:5])
+        print(CurrHour)
+        print(CurrMinus)
+
+        if CurrHour == 12 and CurrMinus < 5:
+            canteen_human_num = 0
+            enter_num = 0
+            depart_num = 0
+            print(" New Day started, Human number reset.")
+
         run_num += 1
         if run_num == 200:
             fps = 1 / ((time.time() - t0) / 100)
